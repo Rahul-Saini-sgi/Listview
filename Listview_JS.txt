@@ -1,0 +1,43 @@
+import { LightningElement, track, api, wire } from 'lwc';
+import getProject from '@salesforce/apex/projectComponentController.getProject';
+import getResult from '@salesforce/apex/projectComponentController.getResult';
+import { refreshApex } from '@salesforce/apex';
+export default class ProjectComponent extends LightningElement {
+    columns = [
+        {label: 'Kloudone Number', fieldName: 'Name', type: 'Auto Number'},
+        {label: 'Project Name', fieldName: 'Project_Name__c', type: 'text'},
+        {label: 'Project Type', fieldName: 'Project_Type__c', type: 'Picklist'},
+        {label: 'Owner', fieldName: 'OwnerId.FirstName', type: 'Lookup(User,Group)'},
+        {label: 'End Date', fieldName: 'End_Date__c', type: 'Date'},
+        {label: 'Priority', fieldName: 'Priority__c', type: 'Picklist'},
+        {label: 'Status', fieldName: 'Status__c', type: 'Picklist'},
+    ];
+    @track data;
+    @track totalRecountCount;
+    searchKey;
+    @wire (getResult) result({error, data}) {
+        if(data) {
+            this.data = data;
+            this.totalRecountCount = data.length;
+        }
+    }
+    @wire(getProject, {searchKey: '$searchKey'})
+    wiredProject ({error, data}) {
+        if(data){
+            this.data = data
+            this.error = undefined;
+            this.totalRecountCount = data.length;
+    }else if (error) {
+        this.error = error;
+        this.data = undefined;
+    }
+}
+    handleKeyChange( event ) {
+        window.clearTimeout(this.delayTimeout);
+		const searchKey = event.target.value;
+		// eslint-disable-next-line @lwc/lwc/no-async-operation
+		this.delayTimeout = setTimeout(() => {
+			this.searchKey = searchKey;
+		}, 300);
+    }
+}
