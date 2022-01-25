@@ -1,0 +1,32 @@
+public with sharing class projectComponentController {
+    public projectComponentController() {
+
+    }
+    @AuraEnabled(Cacheable=true)
+    public static Kloudone__c[] getResult() {
+        return [
+            SELECT
+                Id, Name, Project_Name__c, Project_Type__c, OwnerId, End_Date__c, Priority__c, Status__c FROM Kloudone__c
+            ORDER BY Name
+            LIMIT 50
+        ];
+    }
+    @AuraEnabled(cacheable=true)
+    public static List<Kloudone__c> getProject( String searchKey) {
+        searchKey = searchKey.trim();
+        if(searchKey == ''){
+            return getResult();
+        }
+        searchKey = '%' + searchKey + '%';
+        return [SELECT Id, Name, Project_Name__c, Project_Type__c, OwnerId, End_Date__c, Priority__c, Status__c FROM Kloudone__c
+                 WHERE Project_Name__c LIKE :searchKey];
+    }
+    @AuraEnabled(cacheable=true)
+    public static void deleteSelectedProject(List<Id> selProjectIdList) {
+        List<Kloudone__c> projectList = new List<Kloudone__c>();
+        projectList = [SELECT Id FROM Kloudone__c WHERE Id IN : selProjectIdList];
+        if(projectList != null && projectList.size() > 0) {
+            delete projectList;
+        }
+    }
+}
