@@ -1,0 +1,59 @@
+<template>
+    <article class="slds-card" style="background-color: #e6ebee;">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+              <div class="slds-media__figure">
+                <span class="slds-icon_container slds-icon-standard-contact" title="Project">
+                  <svg class="slds-icon slds-icon_large" aria-hidden="true">
+                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
+                  </svg>
+                  <span class="slds-assistive-text">Project</span>
+                </span>
+              </div>
+              <div class="slds-media__body">
+                <h2 class="slds-card__header-title">
+                  <a href="#" class="slds-card__header-link slds-truncate" title="Project">
+                    <span>Project</span>
+                  </a>
+                </h2>
+              </div>
+              <div class="slds-no-flex">
+                <c-test-Component></c-test-Component>
+              </div>
+            </header>
+          </div>
+        <div class="slds-card__body slds-card__body_inner">
+            <div class="slds-clearfix">
+                <div class="slds-float_left slds-m-top_medium">
+                    <p>{totalRecountCount} Project(s) found</p>
+                </div>
+                <div class="slds-float_right slds-m-bottom_large">
+                    <lightning-input type="search" onchange={handleKeyChange} placeholder="Search for Projects Name"
+                        value={searchKey}>
+                    </lightning-input>
+                </div>
+            </div>
+        </div>
+            <!--<div style="overflow-y: auto; max-height: 300px">-->
+              <div class="slds-form-element__control slds-m-around_medium">
+                    <lightning-datatable key-field="Id" data={data} columns={columns} hide-checkbox-column>
+                    </lightning-datatable>
+            </div>
+            <footer class="slds-card__footer"></footer>
+    </article>
+    <!--
+    <lightning-card title="Project" icon-name="standard:shift_pattern_entry">
+        <div slot="actions">
+            <c-test-Component></c-test-Component>
+        </div>
+        <div class="slds-m-around_medium">
+                <lightning-input type="search" onchange={handleKeyChange} class="slds-m-bottom_small" label="Search"
+                    value={searchKey}>
+                </lightning-input>
+            <lightning-datatable key-field="Id" data={data} columns={columns} sorted-by={sortedBy}
+                sorted-direction={sortedDirection} onsort={sortColumns} hide-checkbox-column>
+            </lightning-datatable>
+        </div>
+    </lightning-card>
+-->
+</template>
